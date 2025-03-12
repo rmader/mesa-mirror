@@ -238,6 +238,24 @@ st_get_sampler_views(struct st_context *st,
          sampler_views[extra] =
                pipe->create_sampler_view(pipe, stObj->pt->next->next, &tmpl);
          break;
+      case PIPE_FORMAT_I010:
+      case PIPE_FORMAT_I210:
+      case PIPE_FORMAT_I410:
+         /* TODO: For better performance, see PIPE_FORMAT_R10_G10B10_420_UNORM */
+         if (false /*stObj->pt->format == PIPE_FORMAT_R16_G16_B16_420_UNORM*/) {
+            /* no additional views needed */
+            break;
+         }
+
+         /* we need two additional R16 views: */
+         tmpl.format = PIPE_FORMAT_R16_UNORM;
+         extra = u_bit_scan(&free_slots);
+         sampler_views[extra] =
+               pipe->create_sampler_view(pipe, stObj->pt->next, &tmpl);
+         extra = u_bit_scan(&free_slots);
+         sampler_views[extra] =
+               pipe->create_sampler_view(pipe, stObj->pt->next->next, &tmpl);
+         break;
       case PIPE_FORMAT_YUYV:
       case PIPE_FORMAT_YVYU:
          if (stObj->pt->format == PIPE_FORMAT_R8G8_R8B8_UNORM ||

@@ -448,6 +448,12 @@ convert_yuv_to_rgb(nir_builder *b, nir_tex_instr *tex,
    nir_def *m1 = nir_f2fN(b, nir_build_imm(b, 4, 32, m->v[1]), bit_size);
    nir_def *m2 = nir_f2fN(b, nir_build_imm(b, 4, 32, m->v[2]), bit_size);
 
+   if (options->lower_ix10_external & (1u << texture_index)) {
+      m0 = nir_fmul(b, m0, nir_imm_float(b, 64.0f));
+      m1 = nir_fmul(b, m1, nir_imm_float(b, 64.0f));
+      m2 = nir_fmul(b, m2, nir_imm_float(b, 64.0f));
+   }
+
    nir_def *result =
       nir_ffma(b, y, m0, nir_ffma(b, u, m1, nir_ffma(b, v, m2, offset)));
 

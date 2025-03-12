@@ -323,6 +323,19 @@ update_shader_samplers(struct st_context *st,
          extra = u_bit_scan(&free_slots);
          states[extra] = sampler;
          break;
+      case PIPE_FORMAT_I010:
+      case PIPE_FORMAT_I210:
+      case PIPE_FORMAT_I410:
+         if (false /*stObj->pt->format == PIPE_FORMAT_R16_G16_B16_420_UNORM*/) {
+            /* no additional views needed */
+            break;
+         }
+         /* we need two additional samplers: */
+         extra = u_bit_scan(&free_slots);
+         states[extra] = sampler;
+         extra = u_bit_scan(&free_slots);
+         states[extra] = sampler;
+         break;
       default:
          break;
       }

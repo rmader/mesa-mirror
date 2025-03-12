@@ -2104,6 +2104,26 @@
   swizzles: [X, Y, Z, W]
 
 
+- name: I010
+  layout: planar3
+  colorspace: YUV
+  block: {width: 1, height: 1, depth: 1}
+  channels: []
+  swizzles: [X, Y, Z, W]
+- name: I210
+  layout: planar3
+  colorspace: YUV
+  block: {width: 1, height: 1, depth: 1}
+  channels: []
+  swizzles: [X, Y, Z, W]
+- name: I410
+  layout: planar3
+  colorspace: YUV
+  block: {width: 1, height: 1, depth: 1}
+  channels: []
+  swizzles: [X, Y, Z, W]
+
+
 - name: Y210
   layout: subsampled
   colorspace: YUV
